@@ -5,11 +5,12 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.*;
+import java.awt.List;
 import java.net.*;
 // import org.json.JSONObject;
 
 public class Login extends JFrame {
-    String tokeTemp;
     final private Font mainFont = new Font("Consolas", Font.BOLD, 18);
     final private Font smallFont = new Font("Consolas", Font.BOLD, 16);
     JTextField tfFullName, tfWorkID, tfPhoneNum, tfEmail, tfPassword;
@@ -64,12 +65,19 @@ public class Login extends JFrame {
                         respTemp.append(inputLine);
                     }
                     in.close();
-                    tokeTemp = respTemp.toString();
+                    // System.out.println(respTemp.toString());
+                    // String json = respTemp.toString();
+                    // ObjectMapper mapper = new ObjectMapper();
+                    // List<Map<String, Object>> rows = mapper.readValue(json, List.class);
+                    // for (Map<String, Object> row : rows) {
+                    //     System.out.println(row);
+                    // }
+                    exec.seshToke = respTemp.toString();
                 } catch (Exception r) {
                     r.printStackTrace();
                 }
                 // System.out.println(tokeTemp);
-                if(tokeTemp.equals("Invalid password!") || tokeTemp.equals("Invalid email!"))
+                if(exec.seshToke.equals("Invalid password!") || exec.seshToke.equals("Invalid email!"))
                 {
                     lbWelcome.setText("Invalid Login");
                     lbWelcome.setVisible(true);
