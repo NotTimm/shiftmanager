@@ -51,6 +51,9 @@ def new_user():
     phone = request.form['phoneNumber']
     email = request.form['email']
     password = request.form['password']
+    if name == "" or email == "" or password == "":
+        return 'Required Fields'
+    print(name,workid,phone,email,password)
     cur = mysql.connection.cursor()
     check = cur.execute("SELECT * FROM users WHERE email=%s", [email])
     if check > 0:
