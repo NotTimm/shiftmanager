@@ -23,7 +23,7 @@ public class Login extends JFrame {
 
         JLabel lbPassword = new JLabel(" Password:");
         lbPassword.setFont(mainFont);
-        tfPassword = new JTextField();
+        tfPassword = new JPasswordField();
         tfPassword.setFont(mainFont);
 
         JPanel formPanel = new JPanel();
