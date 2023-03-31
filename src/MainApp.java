@@ -103,6 +103,9 @@ public class MainApp extends JFrame {
                 if("Username already exists!".equals(response) || response == "emp")
                 {
                     lbWelcome.setText("Email already in use");
+                }
+                else if(response.equals("Required Fields")) {
+                    lbWelcome.setText("* name,email,password");
                 } else {
                     Login temp = exec.login;
                     temp.initialize();
