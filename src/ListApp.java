@@ -1,15 +1,10 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-// import java.net.*;
-// import java.com.xyz;
-
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-// import java.awt.event.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Vector;
@@ -24,7 +19,7 @@ public class ListApp extends JFrame {
     public void ListedApp() {
         setTitle("Shift List");
         setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
-        setSize(500,400);
+        setSize(500,350);
         setLayout(new BorderLayout());
 
         try {
@@ -49,38 +44,37 @@ public class ListApp extends JFrame {
         } catch (Exception r) {
             r.printStackTrace();
         }
-        Vector<Vector<String>> listStore = new Vector<Vector<String>>(15);
+        exec.listLocal = new Vector<Vector<String>>(15);
         int point = 1;
-        for(int i = 0; i < 14; i++)
+        for(int i = 0; i < 15; i++)
         {
-            listStore.add(new Vector<String>());
+            exec.listLocal.add(new Vector<String>());
             point+=2;
             System.out.println(listDirty.substring(point, point+10));
-            listStore.get(i).add(listDirty.substring(point, point+10));
+            exec.listLocal.get(i).add(listDirty.substring(point, point+10));
             point+=13;
             int shift = 0;
             while(Character.compare(listDirty.charAt(point+shift), '\"') != 0)
                 shift++;
             System.out.println(listDirty.substring(point, point+shift));
-            listStore.get(i).add(listDirty.substring(point, point+shift));
+            exec.listLocal.get(i).add(listDirty.substring(point, point+shift));
             for(int o = 0; o < 10; o++)
             {
                 point += shift + 3;
                 shift = 0;
                 while(Character.compare(listDirty.charAt(point+shift), '\"') != 0 || Character.compare(listDirty.charAt(point+shift),'*') == 0)
                     shift++;
-                listStore.get(i).add(listDirty.substring(point, point+shift));
+                    exec.listLocal.get(i).add(listDirty.substring(point, point+shift));
                 System.out.println(listDirty.substring(point, point+shift));
             }
             point+=4;
         }
 
-        String[] items = {"Shift 1    Day", "Shift 1    Night",
-         "Shift 2    Day", "Shift 2    Night",
-          "Shift 3    Day", "Shift 3    Night",
-           "Shift 4    Day", "Shift 4    Night",
-            "Shift 5    Day", "Shift 5    Night",
-             "Shift 6    Day", "Shift 6    Night"};
+        String[] items = new String[15];
+        for(int i = 0; i < 15; i++)
+        {
+            items[i] = " |Date|  " + exec.listLocal.get(i).get(0) + "  |Day|  " + exec.listLocal.get(i).get(1);
+        }
     
         JButton btnOK = new JButton("Reserve");
         btnOK.setFont(mainFont);
