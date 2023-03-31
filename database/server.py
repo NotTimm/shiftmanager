@@ -12,7 +12,7 @@ load_dotenv();
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_PORT'] = os.getenv('SQLPORT')
+app.config['MYSQL_PORT'] = int(os.getenv('SQLPORT'))
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = os.getenv('SQLPASS')
 app.config['MYSQL_DB'] = 'cs7319'
