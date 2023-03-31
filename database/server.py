@@ -12,7 +12,7 @@ load_dotenv();
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_PORT'] = 6969
+app.config['MYSQL_PORT'] = os.getenv('SQLPORT')
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = os.getenv('SQLPASS')
 app.config['MYSQL_DB'] = 'cs7319'
@@ -22,13 +22,6 @@ mysql = MySQL(app)
 # mysql.init_app(app)
 
 # print(os.getenv('SQLPASS'), file=sys.stderr)
-
-try:
-    conn = mysql.connection.ping()
-    print('connection successful', file=sys.stderr)
-    # conn.close()
-except:
-    print('error in connection', file=sys.stderr)
 
 def token_required(f):
     @wraps(f)
