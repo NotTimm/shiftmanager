@@ -3,7 +3,6 @@ from flask_mysqldb import MySQL
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
-# import datetime
 from datetime import datetime, timedelta
 import sys
 import os
@@ -20,9 +19,6 @@ app.config['MYSQL_DB'] = 'cs7319'
 app.config['SECRET_KEY'] = os.getenv('SECRETKEY')
 
 mysql = MySQL(app)
-# mysql.init_app(app)
-
-# print(os.getenv('SQLPASS'), file=sys.stderr)
 
 def token_required(f):
     @wraps(f)
@@ -51,7 +47,7 @@ def before_first_request():
         cur.execute("SELECT * FROM schedule WHERE date=%s", [date])
         if cur.fetchone() is None:
             print("added to db: ",date, dayOfWeek)
-            cur.execute("INSERT INTO schedule (date, dayOfWeek) VALUES (%s, %s)", ([date], [dayOfWeek]))    
+            cur.execute("INSERT INTO schedule (date, dayOfWeek, nurse1, nurse2, nurse3, nurse4, nurse5, nurse6, nurse7, nurse8, nurse9, nurse10) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ([date], [dayOfWeek],["*"],["*"],["*"],["*"],["*"],["*"],["*"],["*"],["*"],["*"]))    
     mysql.connection.commit()
     cur.close()
     return 'Current Schedule Built'
@@ -104,7 +100,6 @@ def get_shifts():
         s.append(today)
     cur.execute("SELECT * FROM schedule WHERE date in (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", ([s[0]],[s[1]],[s[2]],[s[3]],[s[4]],[s[5]],[s[6]],[s[7]],[s[8]],[s[9]],[s[10]],[s[11]],[s[12]],[s[13]],[s[14]]))
     rows = cur.fetchall()
-    print(rows)
     cur.close()
     return jsonify(rows)
 

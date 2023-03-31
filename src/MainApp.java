@@ -78,10 +78,6 @@ public class MainApp extends JFrame {
                     conn.setDoOutput(true);
                     String param = "fullName="+fullName+"&workID="+workID+"&phoneNumber="+phoneNumber+"&email="+email+"&password="+password;
                     System.out.println(param);
-                    // try (OutputStream os = conn.getOutputStream()) {
-                    //     byte[] go = jso.getBytes();
-                    //     os.write(go, 0, go.length);
-                    // }
                     OutputStream os = conn.getOutputStream();
                     os.write(param.getBytes());
                     os.flush();
@@ -113,8 +109,6 @@ public class MainApp extends JFrame {
                     Window window = SwingUtilities.windowForComponent(button);
                     window.setVisible(false);
                 }
-                // lbWelcome.setText("Welcome " + fullName);
-                // throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
             }
             
         });
@@ -157,9 +151,4 @@ public class MainApp extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
-
-    // public static void main(String[] args) {
-    //     MainApp myFrame = new MainApp();
-    //     myFrame.initialize();
-    // }
 }

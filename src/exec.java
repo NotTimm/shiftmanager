@@ -1,5 +1,3 @@
-// import javax.swing.*;
-// import java.awt.*;
 public class exec {
     public static MainApp mainApp = new MainApp();
     public static ListApp listApp = new ListApp();

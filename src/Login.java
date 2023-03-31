@@ -5,10 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.*;
-import java.awt.List;
 import java.net.*;
-// import org.json.JSONObject;
 
 public class Login extends JFrame {
     final private Font mainFont = new Font("Consolas", Font.BOLD, 18);
@@ -65,13 +62,6 @@ public class Login extends JFrame {
                         respTemp.append(inputLine);
                     }
                     in.close();
-                    // System.out.println(respTemp.toString());
-                    // String json = respTemp.toString();
-                    // ObjectMapper mapper = new ObjectMapper();
-                    // List<Map<String, Object>> rows = mapper.readValue(json, List.class);
-                    // for (Map<String, Object> row : rows) {
-                    //     System.out.println(row);
-                    // }
                     exec.seshToke = respTemp.toString();
                 } catch (Exception r) {
                     r.printStackTrace();
@@ -127,7 +117,6 @@ public class Login extends JFrame {
 
         JPanel mainScreen = new JPanel();
         mainScreen.setLayout(new BorderLayout());
-        // mainScreen.setBackground((new Color(102,102,153)));
         mainScreen.add(formPanel, BorderLayout.NORTH);
         mainScreen.add(lbWelcome, BorderLayout.CENTER);
         mainScreen.add(buttons, BorderLayout.SOUTH);
@@ -138,15 +127,9 @@ public class Login extends JFrame {
         setSize(300,269);
         ImageIcon img = new ImageIcon("../com/icon.png");
         setIconImage(img.getImage());
-        // setI
         setMinimumSize(new Dimension(300,100));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
-    // public static void main(String[] args) {
-    //     Login myFrame = new Login();
-    //     myFrame.initialize();
-    // }
 }

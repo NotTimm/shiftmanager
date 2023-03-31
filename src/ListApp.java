@@ -2,7 +2,6 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.json.JSONArray;
 // import java.net.*;
 // import java.com.xyz;
 
@@ -46,27 +45,34 @@ public class ListApp extends JFrame {
                 respTemp.append(inputLine);
             }
             in.close();
-            System.out.println(respTemp.toString());
             listDirty = respTemp.toString();
-            // JSONObject temp = new JSONObject(respTemp.toString());
-            // JSONArray temp1 = new JSONArray(respTemp.toString());
-            // for(int i = 0; i < temp1.length(); i++)
-            //     System.out.println(temp1.get(i).toString());
         } catch (Exception r) {
             r.printStackTrace();
         }
         Vector<Vector<String>> listStore = new Vector<Vector<String>>(15);
         int point = 1;
-        System.out.println(listDirty.charAt(point));
-        System.out.println(listDirty.charAt(point+1));
-        for(int i = 0; i < 1; i++)
+        for(int i = 0; i < 14; i++)
         {
             listStore.add(new Vector<String>());
             point+=2;
+            System.out.println(listDirty.substring(point, point+10));
             listStore.get(i).add(listDirty.substring(point, point+10));
             point+=13;
-            System.out.println(listDirty.charAt(point));
-            
+            int shift = 0;
+            while(Character.compare(listDirty.charAt(point+shift), '\"') != 0)
+                shift++;
+            System.out.println(listDirty.substring(point, point+shift));
+            listStore.get(i).add(listDirty.substring(point, point+shift));
+            for(int o = 0; o < 10; o++)
+            {
+                point += shift + 3;
+                shift = 0;
+                while(Character.compare(listDirty.charAt(point+shift), '\"') != 0 || Character.compare(listDirty.charAt(point+shift),'*') == 0)
+                    shift++;
+                listStore.get(i).add(listDirty.substring(point, point+shift));
+                System.out.println(listDirty.substring(point, point+shift));
+            }
+            point+=4;
         }
 
         String[] items = {"Shift 1    Day", "Shift 1    Night",
@@ -96,7 +102,6 @@ public class ListApp extends JFrame {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if(!e.getValueIsAdjusting()) {
-                    // List<String> selectedShift =  new List<String>(itemList.getSelectedValuesList());
                     if(itemList.getSelectedValuesList().size() > 1)
                         buttons.remove(view);
                     else
@@ -117,8 +122,4 @@ public class ListApp extends JFrame {
         add(buttons, BorderLayout.SOUTH);
         setVisible(true);
     }
-    // public static void main(String[] args) {
-    //     ListApp test = new ListApp();
-    //     test.ListedApp();
-    // }
 }
