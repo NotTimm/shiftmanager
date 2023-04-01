@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class scratch extends JFrame{
-    private Vector<String> selectedButtons = new Vector<>();
+    // private Vector<String> selectedButtons = new Vector<>();
     public scratch() {
         // Set the title and layout
         super("Vector Frame");
@@ -33,11 +33,11 @@ public class scratch extends JFrame{
             JToggleButton button = new JToggleButton(vector1[i]);
             button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if (button.isSelected()) {
-                        selectedButtons.add(button.getText());
-                    } else {
-                        selectedButtons.remove(button.getText());
-                    }
+                    // if (button.isSelected()) {
+                    //     selectedButtons.add(button.getText());
+                    // } else {
+                    //     selectedButtons.remove(button.getText());
+                    // }
                 }
         });
             vectorPanel.add(button);

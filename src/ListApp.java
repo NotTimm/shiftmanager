@@ -74,9 +74,7 @@ public class ListApp extends JFrame {
 
         String[] items = new String[15];
         for(int i = 0; i < 15; i++)
-        {
             items[i] = " |Date|  " + exec.listLocal.get(i).get(0) + "  |Day|  " + exec.listLocal.get(i).get(1);
-        }
     
         JButton btnOK = new JButton("Reserve");
         btnOK.setFont(mainFont);

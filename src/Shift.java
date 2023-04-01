@@ -19,8 +19,17 @@ public class Shift extends JFrame {
         setMinimumSize(new Dimension(300, 200));
         setLayout(new BorderLayout());
 
-        String[] nurses = {"Nurse 1", "Nurse 2","Nurse 3", "Nurse 4", "Nurse 5", "<available>", "<available>", "<available>", "<available>", "<available>"};
-
+        // String[] nurses = {"Nurse 1", "Nurse 2","Nurse 3", "Nurse 4", "Nurse 5", "<available>", "<available>", "<available>", "<available>", "<available>"};
+        String[] nurses = new String[10];
+        for(int i = 0; i < 10; i++)
+        {
+            if(shiftDetails.get(i+2).equals("*"))
+            {
+                nurses[i] = "<available>";
+                continue;
+            }
+            nurses[i] = shiftDetails.get(i+2);
+        }
     
         JButton btnOK = new JButton("Reserve");
         btnOK.setFont(mainFont);
@@ -49,8 +58,6 @@ public class Shift extends JFrame {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if(!e.getValueIsAdjusting()) {
-                    // List<String> selectedShift =  new List<String>(itemList.getSelectedValuesList());
-                    selected.setText(itemList.getSelectedValuesList().size()*12 + " hours selected");
                 }
             }
             
