@@ -27,7 +27,7 @@ def token_required(f):
         if not token:
             return 'Missing AUTH'
         try:
-            data = jwt.decode(token, app.config['SECRET_KEY'])
+            data = jwt.decode(token, app.config['SECRET_KEY'], 'HS256')
         except:
             return 'Invalid AUTH'
         return f(*args, **kwargs)
@@ -83,7 +83,7 @@ def login():
         data = cur.fetchone()
         password_hash = generate_password_hash(password);
         if check_password_hash(password_hash, password):
-            token = jwt.encode({"email": email, "exp": (datetime.now() + timedelta(minutes=30)).timestamp()}, app.config['SECRET_KEY'])
+            token = jwt.encode({"email": email, "exp": (datetime.now() + timedelta(minutes=30)).timestamp()}, app.config['SECRET_KEY'], 'HS256')
             return token
         else:
             return 'Invalid password!'
