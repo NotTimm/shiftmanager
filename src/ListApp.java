@@ -2,6 +2,8 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -81,6 +83,17 @@ public class ListApp extends JFrame {
         JButton back = new JButton("Back");
         back.setFont(mainFont);
         JButton view = new JButton("View");
+        view.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int shiftNum = itemList.getSelectedIndex();
+                exec.shift = new Shift();
+                exec.shift.ListedApp(exec.listLocal.get(shiftNum));
+                JButton button = (JButton)e.getSource();
+                Window window = SwingUtilities.windowForComponent(button);
+                window.setVisible(false);
+            }
+        });
         view.setFont(mainFont);
         JPanel buttons = new JPanel();
         buttons.setLayout(new GridLayout(1,3,5,5));
@@ -100,7 +113,7 @@ public class ListApp extends JFrame {
                         buttons.remove(view);
                     else
                         buttons.add(view);
-                    selected.setText(itemList.getSelectedValuesList().size()*12 + " hours selected");
+                    selected.setText(" " + itemList.getSelectedValuesList().size()*12 + " hours selected");
                 }
             }
             
@@ -114,6 +127,7 @@ public class ListApp extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
         add(selected, BorderLayout.NORTH);
         add(buttons, BorderLayout.SOUTH);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 }

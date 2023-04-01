@@ -119,7 +119,7 @@ public class MainApp extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Login back = exec.login;
-                back.initialize();
+                back.setVisible(true);
                 JButton temp = (JButton)e.getSource();
                 Window window = SwingUtilities.windowForComponent(temp);
                 window.setVisible(false);

@@ -5,6 +5,7 @@ public class exec {
     public static Login login = new Login();
     public static String seshToke;
     public static Vector<Vector<String>> listLocal;
+    public static Shift shift;
 
     public static void main(String[] args) {
         Login myFrame = exec.login;

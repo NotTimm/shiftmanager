@@ -1,11 +1,10 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-// import java.net.*;
-// import java.com.xyz;
-
 import java.awt.*;
-// import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
 public class Shift extends JFrame {
     private JList<String> itemList;
@@ -13,7 +12,7 @@ public class Shift extends JFrame {
     final private Font mainFont = new Font("Consolas", Font.BOLD, 13);
     private JLabel selected, info;
 
-    public JFrame ListedApp() {
+    public JFrame ListedApp(Vector<String> shiftDetails) {
         setTitle("Shift View");
         setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
         setSize(600,400);
@@ -26,6 +25,16 @@ public class Shift extends JFrame {
         JButton btnOK = new JButton("Reserve");
         btnOK.setFont(mainFont);
         JButton back = new JButton("Back");
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListApp temp = exec.listApp;
+                temp.setVisible(true);
+                JButton button = (JButton)e.getSource();
+                Window window = SwingUtilities.windowForComponent(button);
+                window.setVisible(false);
+            }
+        });
         back.setFont(mainFont);
         JPanel buttons = new JPanel();
         buttons.setLayout(new GridLayout(1,2,5,5));
@@ -34,7 +43,7 @@ public class Shift extends JFrame {
         buttons.add(back);
 
         itemList = new JList<String>(nurses);
-        itemList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         itemList.setFont(mainFont);
         itemList.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -48,23 +57,20 @@ public class Shift extends JFrame {
         });
 
         spots = new JScrollPane(itemList);
-        selected = new JLabel("Shift 1 (Day of Week) Night");
+        selected = new JLabel(" " + shiftDetails.get(1) + "  --  " + shiftDetails.get(0));
         info = new JLabel("Specific Start Time: 1/1/1111-1:11 pm\nBuilding #: C\nRoom Count: ~30");
         String infoStr = "Specific Start Time: 1/1/1111-1:11 pm\nBuilding #: C\nRoom Count: ~30\nDoctors Working: asdf\nMore Info To Come";
+        // String infoStr = shiftDetails.get(1) + " -- " + shiftDetails.get(0) + "\nLocation: Childrens Hospital Dallas";
         info.setText("<html>" + infoStr.replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>") + "</html>");
         selected.setFont(mainFont);
-        ImageIcon img = new ImageIcon("./com/icon.png");
+        ImageIcon img = new ImageIcon("../com/icon.png");
         setIconImage(img.getImage());
         add(spots, BorderLayout.WEST);
         add(selected, BorderLayout.NORTH);
         add(info, BorderLayout.CENTER);
-        add(new JLabel(new ImageIcon("./com/hospital_logo.png")),BorderLayout.EAST);
+        add(new JLabel(new ImageIcon("../com/hospital_logo.png")),BorderLayout.EAST);
         add(buttons, BorderLayout.SOUTH);
         setVisible(true);
         return(this);
-    }
-    public static void main(String[] args) {
-        Shift test = new Shift();
-        test.ListedApp();
     }
 }
