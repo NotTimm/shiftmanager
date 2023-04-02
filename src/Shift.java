@@ -2,8 +2,12 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -50,29 +54,45 @@ public class Shift extends JFrame {
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
                     String param = "email="+exec.userEmail+"&date="+exec.listLocal.get(exec.choice).get(0)+"&token="+exec.seshToke;
-                    System.out.println(exec.listLocal.get(exec.choice).get(0) + exec.userEmail);
+                    // System.out.println(exec.listLocal.get(exec.choice).get(0) + exec.userEmail);
                     OutputStream os = conn.getOutputStream();
                     os.write(param.getBytes());
                     os.flush();
                     os.close();
-                    System.out.println("yep");
+                    // System.out.println("yep");
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     String inputLine;
                     StringBuffer respTemp = new StringBuffer();
                     while((inputLine = in.readLine()) != null) {
                         respTemp.append(inputLine);
                     }
-                    System.out.println(respTemp.toString());
+                    // System.out.println(respTemp.toString());
                     in.close();
                     if(respTemp.toString().equals("added")) {
                         btnOK.setText("Forfeit");
                         setTitle("ADDED");
                         added.setText("ADDED");
+                        for(int i = 0; i < 10; i++)
+                        {
+                            if(nurses[i].equals("<available>")) {
+                                nurses[i] = exec.userEmail;
+                                itemList.setListData(nurses);
+                                break;
+                            }
+                        }
                     }
                     else {
                         btnOK.setText("Reserve");
                         setTitle("REMOVED");
                         added.setText("REMOVED");
+                        for(int i = 0; i < 10; i++)
+                        {
+                            if(nurses[i].equals(exec.userEmail)) {
+                                nurses[i] = "<available>";
+                                itemList.setListData(nurses);
+                                break;
+                            }
+                        }
                     }
 
                 } catch (Exception r) {
@@ -104,6 +124,17 @@ public class Shift extends JFrame {
         itemList = new JList<String>(nurses);
         itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         itemList.setFont(mainFont);
+        itemList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) {
+                    String selectedValue = itemList.getSelectedValue();
+                    StringSelection stringSelection = new StringSelection(selectedValue);
+                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                    clipboard.setContents(stringSelection, null);
+                    setTitle(selectedValue+" copied to clipboard");
+                }
+            }
+        });
         itemList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {

@@ -2,13 +2,29 @@ from flask import Flask, jsonify, request
 from flask_mysqldb import MySQL
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
-import jwt
+from dotenv import load_dotenv
 from datetime import datetime, timedelta
+from apscheduler.schedulers.background import BackgroundScheduler
+import jwt
 import sys
 import os
-from dotenv import load_dotenv
 
 load_dotenv();
+
+def sensor():
+    cur = mysql.connection.cursor();
+    date = datetime.now().date()
+    dayOfWeek = date.strftime('%A')
+    cur.execute("SELECT * FROM schedule WHERE date=%s", [date])
+    if cur.fetchone() is None:
+        print("added to db: ",date, dayOfWeek)
+        cur.execute("INSERT INTO schedule (date, dayOfWeek, nurse1, nurse2, nurse3, nurse4, nurse5, nurse6, nurse7, nurse8, nurse9, nurse10) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ([date], [dayOfWeek],["*"],["*"],["*"],["*"],["*"],["*"],["*"],["*"],["*"],["*"]))    
+    mysql.connection.commit()
+    cur.close()
+    
+sched = BackgroundScheduler(daemon=True)
+sched.add_job(sensor,'interval',minutes=60)
+sched.start()
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = '127.0.0.1'
@@ -61,7 +77,7 @@ def new_user():
     password = request.form['password']
     if name == "" or email == "" or password == "":
         return 'Required Fields'
-    print(name,workid,phone,email,password)
+    print(name,workid,phone,email)
     cur = mysql.connection.cursor()
     check = cur.execute("SELECT * FROM users WHERE email=%s", [email])
     if check > 0:
@@ -115,7 +131,7 @@ def apply():
     for i in range(10):
         if row[i+2] == '*':
             nurse += str(i+1)
-            print("UPDATE schedule SET "+nurse+"=\'"+email+"\' WHERE date=\'"+date+"\'")
+            # print("UPDATE schedule SET "+nurse+"=\'"+email+"\' WHERE date=\'"+date+"\'")
             send = cur.execute("UPDATE schedule SET "+nurse+"=\'"+email+"\' WHERE date=\'"+date+"\'")
             nurse = 'added'
             break
@@ -124,7 +140,7 @@ def apply():
             send = cur.execute("UPDATE schedule SET "+nurse+"=\'*\'"+" WHERE date=\'"+date+"\'")
             nurse = 'forfeited'
             break
-    print(row, file=sys.stdout)
+    # print(row, file=sys.stdout)
     mysql.connection.commit()
     cur.close()
     return nurse

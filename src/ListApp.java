@@ -17,7 +17,55 @@ public class ListApp extends JFrame {
     final private Font mainFont = new Font("Consolas", Font.BOLD, 13);
     private JLabel selected;
     private String listDirty;
+    public void vecBuild() {
+        try {
+            URL url = new URL("http://localhost:8080/getshifts");
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            String param = "token="+exec.seshToke;
+            OutputStream os = conn.getOutputStream();
+            os.write(param.getBytes());
+            os.flush();
+            os.close();
 
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuffer respTemp = new StringBuffer();
+            while((inputLine = in.readLine()) != null) {
+                respTemp.append(inputLine);
+            }
+            in.close();
+            listDirty = respTemp.toString();
+        } catch (Exception r) {
+            r.printStackTrace();
+        }
+        exec.listLocal = new Vector<Vector<String>>(15);
+        int point = 1;
+        for(int i = 0; i < 15; i++)
+        {
+            exec.listLocal.add(new Vector<String>());
+            point+=2;
+            // System.out.println(listDirty.substring(point, point+10));
+            exec.listLocal.get(i).add(listDirty.substring(point, point+10));
+            point+=13;
+            int shift = 0;
+            while(Character.compare(listDirty.charAt(point+shift), '\"') != 0)
+                shift++;
+            // System.out.println(listDirty.substring(point, point+shift));
+            exec.listLocal.get(i).add(listDirty.substring(point, point+shift));
+            for(int o = 0; o < 10; o++)
+            {
+                point += shift + 3;
+                shift = 0;
+                while(Character.compare(listDirty.charAt(point+shift), '\"') != 0 || Character.compare(listDirty.charAt(point+shift),'*') == 0)
+                    shift++;
+                    exec.listLocal.get(i).add(listDirty.substring(point, point+shift));
+                // System.out.println(listDirty.substring(point, point+shift));
+            }
+            point+=4;
+        }
+    }
     public void ListedApp() {
         setTitle("Shift List");
         setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
@@ -78,12 +126,20 @@ public class ListApp extends JFrame {
     
         JButton btnOK = new JButton("Reserve");
         btnOK.setFont(mainFont);
-        JButton back = new JButton("Back");
+        JButton back = new JButton("Quit");
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
         back.setFont(mainFont);
         JButton view = new JButton("View");
         view.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(itemList.getSelectedValuesList().size() == 0)
+                    return;
                 exec.choice = itemList.getSelectedIndex();
                 exec.shift = new Shift();
                 exec.shift.ListedApp(exec.listLocal.get(exec.choice));
@@ -111,14 +167,57 @@ public class ListApp extends JFrame {
                         buttons.remove(view);
                     else
                         buttons.add(view);
-                    selected.setText(" " + itemList.getSelectedValuesList().size()*12 + " hours selected");
+                    selected.setText(" " + itemList.getSelectedValuesList().size() + " shifts selected");
                 }
             }
-            
+        });
+        btnOK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Vector<String> resps = new Vector<String>();
+                int add = 0, sub = 0;
+                try {
+                    for(int i = 0; i < itemList.getSelectedValuesList().size(); i++)
+                    {
+                        URL url = new URL("http://localhost:8080/apply");
+                        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                        conn.setRequestMethod("POST");
+                        conn.setDoOutput(true);
+                        OutputStream os = conn.getOutputStream();
+                        String param = "email="+exec.userEmail+"&date="+itemList.getSelectedValuesList().get(i).substring(9,19)+"&token="+exec.seshToke;
+                        // System.out.println(param); 
+                        os.write(param.getBytes());
+                        os.flush();
+                        os.close();
+                        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        String inputLine;
+                        StringBuffer respTemp = new StringBuffer();
+                        while((inputLine = in.readLine()) != null) {
+                            respTemp.append(inputLine);
+                        }
+                        in.close();
+                        resps.add(respTemp.toString());
+                    }
+                    // ListedApp();
+                    for(int i = 0; i < resps.size(); i++)
+                    {
+                        if(resps.get(i).equals("added"))
+                            add++;
+                        else
+                            sub++;
+                    }
+                    // itemList.clearSelection();
+                    selected.setText(" " + add + " shifts added; " + sub + " shifts removed;");
+                    vecBuild();
+                    // selected.revalidate();
+                    } catch (Exception r) {
+                    r.printStackTrace();
+                }
+            }
         });
 
         scrollPane = new JScrollPane(itemList);
-        selected = new JLabel("Please select a shift");
+        selected = new JLabel(" Please select a shift");
         selected.setFont(mainFont);
         ImageIcon img = new ImageIcon("../com/icon.png");
         setIconImage(img.getImage());
