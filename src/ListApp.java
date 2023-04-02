@@ -52,13 +52,13 @@ public class ListApp extends JFrame {
         {
             exec.listLocal.add(new Vector<String>());
             point+=2;
-            System.out.println(listDirty.substring(point, point+10));
+            // System.out.println(listDirty.substring(point, point+10));
             exec.listLocal.get(i).add(listDirty.substring(point, point+10));
             point+=13;
             int shift = 0;
             while(Character.compare(listDirty.charAt(point+shift), '\"') != 0)
                 shift++;
-            System.out.println(listDirty.substring(point, point+shift));
+            // System.out.println(listDirty.substring(point, point+shift));
             exec.listLocal.get(i).add(listDirty.substring(point, point+shift));
             for(int o = 0; o < 10; o++)
             {
@@ -67,7 +67,7 @@ public class ListApp extends JFrame {
                 while(Character.compare(listDirty.charAt(point+shift), '\"') != 0 || Character.compare(listDirty.charAt(point+shift),'*') == 0)
                     shift++;
                     exec.listLocal.get(i).add(listDirty.substring(point, point+shift));
-                System.out.println(listDirty.substring(point, point+shift));
+                // System.out.println(listDirty.substring(point, point+shift));
             }
             point+=4;
         }
@@ -84,9 +84,9 @@ public class ListApp extends JFrame {
         view.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int shiftNum = itemList.getSelectedIndex();
+                exec.choice = itemList.getSelectedIndex();
                 exec.shift = new Shift();
-                exec.shift.ListedApp(exec.listLocal.get(shiftNum));
+                exec.shift.ListedApp(exec.listLocal.get(exec.choice));
                 JButton button = (JButton)e.getSource();
                 Window window = SwingUtilities.windowForComponent(button);
                 window.setVisible(false);

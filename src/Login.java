@@ -41,14 +41,14 @@ public class Login extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String email = tfEmail.getText();
+                exec.userEmail = tfEmail.getText();
                 String password = tfEmail.getText();
                 try {
                     URL url = new URL("http://localhost:8080/login");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
-                    String param = "email="+email+"&password="+password;
+                    String param = "email="+exec.userEmail+"&password="+password;
                     // System.out.println(param);
                     OutputStream os = conn.getOutputStream();
                     os.write(param.getBytes());

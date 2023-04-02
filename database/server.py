@@ -103,5 +103,31 @@ def get_shifts():
     cur.close()
     return jsonify(rows)
 
+@app.route('/apply', methods=['POST'])
+@token_required
+def apply():
+    email = request.form['email']
+    date = request.form['date']
+    cur = mysql.connection.cursor()
+    check = cur.execute("SELECT * FROM schedule WHERE date=%s", [date])
+    row = cur.fetchone()
+    nurse = "nurse"
+    for i in range(10):
+        if row[i+2] == '*':
+            nurse += str(i+1)
+            print("UPDATE schedule SET "+nurse+"=\'"+email+"\' WHERE date=\'"+date+"\'")
+            send = cur.execute("UPDATE schedule SET "+nurse+"=\'"+email+"\' WHERE date=\'"+date+"\'")
+            nurse = 'added'
+            break
+        elif row[i+2] == email:
+            nurse += str(i+1)
+            send = cur.execute("UPDATE schedule SET "+nurse+"=\'*\'"+" WHERE date=\'"+date+"\'")
+            nurse = 'forfeited'
+            break
+    print(row, file=sys.stdout)
+    mysql.connection.commit()
+    cur.close()
+    return nurse
+
 if __name__ == '__main__':
     app.run(port=8080)
