@@ -73,8 +73,8 @@ public class Login extends JFrame {
                     lbWelcome.setVisible(true);
                 } else
                 {
-                    ListApp temp = exec.listApp;
-                    temp.ListedApp();
+                    exec.listApp = new ListApp();
+                    exec.listApp.ListedApp();
                     JButton button = (JButton)e.getSource();
                     Window window = SwingUtilities.windowForComponent(button);
                     window.setVisible(false);
