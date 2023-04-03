@@ -143,6 +143,8 @@ def apply():
     # print(row, file=sys.stdout)
     mysql.connection.commit()
     cur.close()
+    if nurse == "nurse":
+        return "not added"
     return nurse
 
 if __name__ == '__main__':

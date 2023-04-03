@@ -81,6 +81,9 @@ public class Shift extends JFrame {
                             }
                         }
                     }
+                    else if(respTemp.toString().equals("not added")) {
+                        setTitle("NO CHANGE");
+                    }
                     else {
                         btnOK.setText("Reserve");
                         setTitle("REMOVED");
