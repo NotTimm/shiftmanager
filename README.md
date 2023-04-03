@@ -51,7 +51,7 @@ And add the variables
 * SQLPASS = mysql connection password
 * SECRETKEY = your own choice of encryption key
 
-Confirm there is no whitespace between words and spaces
+Confirm there is no whitespace between words and equals signs
 Then press Ctrl+X or Cmd+X then Y then enter to save the file
 
 Now pip install the required imports and run the server
