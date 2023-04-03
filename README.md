@@ -12,11 +12,11 @@ It was built in a linux terminal, but formatted for a Windows runtime, so the ic
 
 Built using jdk17 from oracle, but presumably works on jdk19 aswell *optional:* install in terminal
 ```
-you@yourpc: ~/$ sudo apt install openjdk-17-jdk openjdk-17-jre
+you@yourpc:~/$ sudo apt install openjdk-17-jdk openjdk-17-jre
 ```
 **Python3 Install:[Python3](https://www.python.org/downloads/)**
 ```
-you@yourpc: ~/$ sudo apt install python3 pip3
+you@yourpc:~/$ sudo apt install python3 pip3
 ```
 ## Database:
 ### MySQL Server
@@ -24,12 +24,12 @@ Download & Start [Docker](https://www.docker.com/products/docker-desktop/)
 
 Open a terminal and start a MySQL server with the following command
 ```
-you@yourpc: ~/$ docker run --name=sqlName -p "your port(usually 3306)":3306 -e MYSQL_ROOT_PASSWORD="yourpassword" -d mysql/mysql-server
+you@yourpc:~/$ docker run --name=sqlName -p "your port(usually 3306)":3306 -e MYSQL_ROOT_PASSWORD="yourpassword" -d mysql/mysql-server
 ```
 Now bash into your server and build the required tables
 ```
-you@yourpc: ~/$ docker ps
-you@yourpc: ~/$ docker exec -it "your CONTAINER ID" bash
+you@yourpc:~/$ docker ps
+you@yourpc:~/$ docker exec -it "your CONTAINER ID" bash
 bash-4.4# mysql -uroot -p
 Enter password: "enter your password"
 mysql> 
@@ -40,11 +40,11 @@ Navigate to the database directory in a terminal
 Pip install the requirements 
 Then finally just run it
 ```
-you@yourpc: ~/shiftmanager$ cd database
+you@yourpc:~/shiftmanager$ cd database
 ```
 Build the .env
 ```
-you@yourpc: ~/shiftmanager/database$ nano .env
+you@yourpc:~/shiftmanager/database$ nano .env
 ```
 And add the variables
 * SQLPORT = mysql connection port
@@ -56,19 +56,19 @@ Then press Ctrl+X or Cmd+X then Y then enter to save the file
 
 Now pip install the required imports and run the server
 ```
-you@yourpc: ~/shiftmanager/database$ pip install -r requirements.txt
-you@yourpc: ~/shiftmanager/database$ python3 server.py
+you@yourpc:~/shiftmanager/database$ pip install -r requirements.txt
+you@yourpc:~/shiftmanager/database$ python3 server.py
 ```
 ## Application:
 The project comes with a compiled .jar file, but if the user wants to *build it themselves* follow below
 ```
-you@yourpc: ~/shiftmanager$ cd src
-you@yourpc: ~/shiftmanager/src$ javac *.java
-you@yourpc: ~/shiftmanager/src$ java exec.java
+you@yourpc:~/shiftmanager$ cd src
+you@yourpc:~/shiftmanager/src$ javac *.java
+you@yourpc:~/shiftmanager/src$ java exec.java
 ```
 Or build to a jar aswell
 ```
-you@yourpc: ~/shiftmanager/src$ jar -cvmf manifest.mf HealthAgenda.jar *.class
+you@yourpc:~/shiftmanager/src$ jar -cvmf manifest.mf HealthAgenda.jar *.class
 ```
 ### Then Just Run the app
 ![Screenshot 2023-04-02 200037](https://user-images.githubusercontent.com/91497673/229389711-04432e76-0995-44b1-82e8-a402dfd05f9a.png)
