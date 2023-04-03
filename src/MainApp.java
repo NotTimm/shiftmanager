@@ -26,7 +26,7 @@ public class MainApp extends JFrame {
         tfWorkID = new JTextField();
         tfWorkID.setFont(mainFont);
 
-        JLabel lbPhoneNum = new JLabel(" Phone Number:");
+        JLabel lbPhoneNum = new JLabel(" Phone #:");
         lbPhoneNum.setFont(mainFont);
         tfPhoneNum = new JTextField();
         tfPhoneNum.setFont(mainFont);
@@ -103,8 +103,8 @@ public class MainApp extends JFrame {
                 else if(response.equals("Required Fields")) {
                     lbWelcome.setText("* name,email,password");
                 } else {
-                    Login temp = exec.login;
-                    temp.initialize();
+                    exec.login = new Login();
+                    exec.login.initialize();
                     JButton button = (JButton)e.getSource();
                     Window window = SwingUtilities.windowForComponent(button);
                     window.setVisible(false);
