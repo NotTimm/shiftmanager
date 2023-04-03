@@ -6,7 +6,7 @@ CREATE TABLE users (
     phoneNumber VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255)
-)
+);
 CREATE TABLE schedule (
     date VARCHAR(255),
     dayOfWeek VARCHAR(255),
@@ -20,4 +20,4 @@ CREATE TABLE schedule (
     nurse8 VARCHAR(255),
     nurse9 VARCHAR(255),
     nurse10 VARCHAR(255)
-)
+);
