@@ -1,4 +1,4 @@
-# Healthworker Agenda
+# Health Agenda
 It is a scheduling app designed for local system use, say at a hospital, which was used for the theme of this implimentation. I ended up making nearly any changes in architecture, except for the backend. It was originally written in nodejs, but after a bluescreen, the file was corrupted and I just decided to change. I always had the vision of client-server, as I built such a thing in databases before. It came out as quite impressive, and I enjoy the speed and security.
 
 The client server means that while the frontends are inactive here, the resting python server will continue to stay updated with days as they come.
