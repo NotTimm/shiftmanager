@@ -36,8 +36,7 @@ mysql>
 ```
 Now Run all the commands in [dbsetup.sql](database/dbsetup.sql) one line at a time
 ### Python Server
-Navigate to the database directory in a terminal & Pip install the requirements 
-Then finally just run it
+Navigate to the database directory in a terminal
 ```
 you@yourpc:~/shiftmanager$ cd database
 ```
