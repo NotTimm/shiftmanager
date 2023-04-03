@@ -1,3 +1,4 @@
 database/.env
 src/*.class
 bin
+.vscode
