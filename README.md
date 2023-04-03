@@ -3,6 +3,8 @@ It is a scheduling app designed for local system use, say at a hospital, which w
 
 The client server means that while the frontends are inactive here, the resting python server will continue to stay updated with days as they come.
 
+It was built in a linux terminal, but formatted for a Windows runtime, so the icon images may fail to load, as the extensions have a ../ call where a unix system requires ./ for the same folder, I would recommend any TA testing this run it on windows, but if not I will provide video
+
 ![icon](https://user-images.githubusercontent.com/91497673/229387112-3c84da95-738b-4ba3-9d8e-909c21944aaa.png)
 
 ## Setup and Requirements
