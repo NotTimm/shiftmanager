@@ -56,7 +56,7 @@ Then press Ctrl+X or Cmd+X then Y then enter to save the file
 
 Now pip install the required imports and run the server
 ```
-you@yourpc: ~/shiftmanager/database$ pip install requirements.txt
+you@yourpc: ~/shiftmanager/database$ pip install -r requirements.txt
 you@yourpc: ~/shiftmanager/database$ python3 server.py
 ```
 ## Application:
